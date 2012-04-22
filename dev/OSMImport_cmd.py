@@ -17,14 +17,13 @@ __commandname__ = "[OSMImport]"
 # ----------------------------------------------------------------------------
 # RMap projection (mercator)
 # ----------------------------------------------------------------------------
-def degToRad(deg):
-    return (deg / 180.0 * math.pi)
+
 def lat2coord(lat):  
     return 6378137.0 * math.log(
-        (math.sin(degToRad(lat))+1.0) / math.cos(degToRad(lat))
+        (math.sin(math.radians(lat))+1.0) / math.cos(math.radians(lat))
     )
 def long2coord(lon):
-    return 6378137.0 * degToRad(lon)
+    return 6378137.0 * math.radians(lon)
 
 # ----------------------------------------------------------------------------
 # OSM routines
@@ -60,15 +59,6 @@ def getWayPoints(children_id, model):
 # ----------------------------------------------------------------------------
 # Rhino routines
 # ----------------------------------------------------------------------------
-def setName(obj, newName):
-    if not obj: 
-        return None
-    objref = Rhino.DocObjects.ObjRef(obj)
-    Rhino.DocObjects.ObjectAttributes(o)
-    o = objref.Object()
-    attr = Rhino.DocObjects.ObjectAttributes(o)
-    attr.Name = newName
-    scriptcontext.doc.Objects.ModifyAttributes(o, attr, True)
 
 def createCurve(waypoints, layer=None):
     if not waypoints or len(waypoints) < 2:
